@@ -18,6 +18,7 @@ export default function Home() {
         setItems(arr);
         setLoaderPies(false);
       });
+    window.scroll(0, 0);
   }, []);
   return (
     <div className="container">
