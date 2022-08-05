@@ -4,21 +4,25 @@ import PieBlock from '../components/PieBlock';
 import PieBlockLoader from '../components/PieBlock/PieBlockLoader';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
+import Pagination from '../components/Pagination';
 
-export default function Home() {
+export default function Home({ searchValue }) {
   const [items, setItems] = React.useState([]);
   const [loaderPies, setLoaderPies] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [sortType, setSortType] = React.useState({ name: 'популярности', sortProperty: 'rating' });
 
   React.useEffect(() => {
     setLoaderPies(true);
+
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const sortBy = sortType.sortProperty.replace('-', '');
+    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+    const search = searchValue ? `&search=${searchValue}` : '';
+
     fetch(
-      `https://62e7c43093938a545bd89e33.mockapi.io/items?${
-        categoryId > 0 ? `category=${categoryId}` : ''
-      }&sortBy=${sortType.sortProperty.replace('-', '')}&order=${
-        sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-      }`,
+      `https://62e7c43093938a545bd89e33.mockapi.io/items?page=${currentPage}&limit=8 &${category}&sortBy=${sortBy}&order=${order}${search}`,
     )
       .then((res) => {
         return res.json();
@@ -28,7 +32,19 @@ export default function Home() {
         setLoaderPies(false);
       });
     window.scroll(0, 0);
-  }, [categoryId, sortType]);
+  }, [categoryId, sortType, searchValue, currentPage]);
+
+  const loaderSkeletons = [...new Array(10)].map((_, index) => <PieBlockLoader key={index} />);
+  const pies = items
+    // suitable for static data
+    // .filter((obj) => {
+    //   if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+    //     return true;
+    //   }
+
+    //   return false;
+    // })
+    .map((obj) => <PieBlock key={obj.id} {...obj} />);
 
   return (
     <div className="container">
@@ -37,11 +53,8 @@ export default function Home() {
         <Sort sort={sortType} onClickSort={(i) => setSortType(i)} />
       </div>
       <h2 className="content__title">Все пироги</h2>
-      <div className="content__items">
-        {loaderPies
-          ? [...new Array(10)].map((_, index) => <PieBlockLoader key={index} />)
-          : items.map((obj) => <PieBlock key={obj.id} {...obj} />)}
-      </div>
+      <div className="content__items">{loaderPies ? loaderSkeletons : pies}</div>
+      <Pagination onChangePage={(namber) => setCurrentPage(namber)} />
     </div>
   );
 }

@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import logoHead from '../assets/img/logo-pie.svg';
+import Search from './Search';
 
-function Header() {
+export default function Header({ searchValue, setSearchValue }) {
   return (
     <div className="header">
       <div className="container">
@@ -52,8 +53,7 @@ function Header() {
           </Link>
         </div>
       </div>
+      <Search searchValue={searchValue} setSearchValue={setSearchValue} />
     </div>
   );
 }
-
-export default Header;

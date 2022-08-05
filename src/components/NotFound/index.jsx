@@ -6,9 +6,9 @@ import logoNotFound from '../../assets/img/smile-not_found.png';
 export default function NotFound() {
   return (
     <div className={styles.root}>
-      <img src={logoNotFound} />
+      <img src={logoNotFound} alt="Smile" />
       <h1>Not Found Page :(</h1>
-      <p>К сожелению данной страци нет, в нашем интренет-магазине.</p>
+      <p>К сожелению данной страцы нет, в нашем интренет-магазине.</p>
     </div>
   );
 }
