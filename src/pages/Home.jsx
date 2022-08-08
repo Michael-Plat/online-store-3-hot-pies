@@ -5,8 +5,10 @@ import PieBlockLoader from '../components/PieBlock/PieBlockLoader';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import Pagination from '../components/Pagination';
+import { SearchPie } from '../App';
 
-export default function Home({ searchValue }) {
+export default function Home() {
+  const { searchValue } = React.useContext(SearchPie);
   const [items, setItems] = React.useState([]);
   const [loaderPies, setLoaderPies] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -35,16 +37,7 @@ export default function Home({ searchValue }) {
   }, [categoryId, sortType, searchValue, currentPage]);
 
   const loaderSkeletons = [...new Array(10)].map((_, index) => <PieBlockLoader key={index} />);
-  const pies = items
-    // suitable for static data
-    // .filter((obj) => {
-    //   if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-    //     return true;
-    //   }
-
-    //   return false;
-    // })
-    .map((obj) => <PieBlock key={obj.id} {...obj} />);
+  const pies = items.map((obj) => <PieBlock key={obj.id} {...obj} />);
 
   return (
     <div className="container">

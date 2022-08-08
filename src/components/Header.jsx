@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import logoHead from '../assets/img/logo-pie.svg';
 import Search from './Search';
 
-export default function Header({ searchValue, setSearchValue }) {
+export default function Header() {
   return (
     <div className="header">
       <div className="container">
@@ -53,7 +53,7 @@ export default function Header({ searchValue, setSearchValue }) {
           </Link>
         </div>
       </div>
-      <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Search />
     </div>
   );
 }

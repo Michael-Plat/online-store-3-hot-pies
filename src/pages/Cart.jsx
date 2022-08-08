@@ -11,10 +11,10 @@ export default function Cart() {
       <div className="cart">
         <div className="cart__top">
           <h2 className="content__title">
-            <img src={cart} /> Корзина
+            <img src={cart} alt="Cart" /> Корзина
           </h2>
           <div className="cart__clear">
-            <img src={trash} />
+            <img src={trash} alt="Delete" />
             <span>Очистить корзину</span>
           </div>
         </div>
@@ -30,7 +30,7 @@ export default function Cart() {
           </div>
           <div className="cart__bottom-buttons">
             <Link to={'/'} className="button button--outline button--add go-back-btn">
-              <img src={greyArroeLeft} />
+              <img src={greyArroeLeft} alt="Lefrt" />
               <span>Вернуться назад</span>
             </Link>
             <div className="button pay-btn">
