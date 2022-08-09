@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
 import { setCategoryId, setSort, setCurrentPage } from '../redux/slice/filterSlice';
 import PieBlock from '../components/PieBlock';
@@ -16,7 +17,6 @@ export default function Home() {
   const { searchValue } = React.useContext(SearchPie);
   const [items, setItems] = React.useState([]);
   const [loaderPies, setLoaderPies] = React.useState(true);
-  // const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     setLoaderPies(true);
@@ -26,14 +26,12 @@ export default function Home() {
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    fetch(
-      `https://62e7c43093938a545bd89e33.mockapi.io/items?page=${currentPage}&limit=8 &${category}&sortBy=${sortBy}&order=${order}${search}`,
-    )
+    axios
+      .get(
+        `https://62e7c43093938a545bd89e33.mockapi.io/items?page=${currentPage}&limit=8 &${category}&sortBy=${sortBy}&order=${order}${search}`,
+      )
       .then((res) => {
-        return res.json();
-      })
-      .then((arr) => {
-        setItems(arr);
+        setItems(res.data);
         setLoaderPies(false);
       });
     window.scroll(0, 0);
@@ -55,7 +53,10 @@ export default function Home() {
       </div>
       <h2 className="content__title">Все пироги</h2>
       <div className="content__items">{loaderPies ? loaderSkeletons : pies}</div>
-      <Pagination onChangePage={(namber) => dispatch(setCurrentPage(namber))} />
+      <Pagination
+        currentPage={currentPage}
+        onChangePage={(namber) => dispatch(setCurrentPage(namber))}
+      />
     </div>
   );
 }
