@@ -13,7 +13,6 @@ export default function Search() {
 
   const updeteSearchValue = React.useCallback(
     debounce((str) => {
-      console.log('Hi Michael');
       setSearchValue(str);
     }, 350),
     [],
