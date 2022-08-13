@@ -1,15 +1,29 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function PieBlock({ title, price, imageUrl, types, sizes }) {
-  const [pieCount, setPieCount] = React.useState(0);
-  const [type, setType] = React.useState(Math.min.apply(this, types));
-  const [sizeActive, setSizeActive] = React.useState(26);
+import { addItem } from '../../redux/slice/cartSlice';
 
-  const addPieCount = () => {
-    setPieCount(pieCount + 1);
+const typesPie = ['тонкое', 'традиционное'];
+
+export default function PieBlock({ id, title, price, imageUrl, types, sizes }) {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
+  const [typeActive, setTypeActive] = React.useState(Math.min.apply(this, types));
+  const [sizeActive, setSizeActive] = React.useState();
+
+  const addedCount = cartItem ? cartItem.count : 0;
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typesPie[typeActive],
+      size: sizes[sizeActive],
+    };
+    dispatch(addItem(item));
   };
-
-  const typePie = ['тонкое', 'традиционное'];
 
   return (
     <div className="pie-block-wrapper">
@@ -19,17 +33,20 @@ export default function PieBlock({ title, price, imageUrl, types, sizes }) {
         <div className="pie-block__selector">
           <ul>
             {types.map((i) => (
-              <li key={i} onClick={() => setType(i)} className={type === i ? 'active' : ''}>
-                {typePie[i]}
+              <li
+                key={i}
+                onClick={() => setTypeActive(i)}
+                className={typeActive === i ? 'active' : ''}>
+                {typesPie[i]}
               </li>
             ))}
           </ul>
           <ul>
-            {sizes.map((size) => (
+            {sizes.map((size, i) => (
               <li
                 key={size}
-                onClick={() => setSizeActive(size)}
-                className={sizeActive === size ? 'active' : ''}>
+                onClick={() => setSizeActive(i)}
+                className={sizeActive === i ? 'active' : ''}>
                 {size} гр.
               </li>
             ))}
@@ -37,7 +54,10 @@ export default function PieBlock({ title, price, imageUrl, types, sizes }) {
         </div>
         <div className="pie-block__bottom">
           <div className="pie-block__price">от {price} ₽</div>
-          <button onClick={addPieCount} className="button button--outline button--add">
+          <button
+            disabled={!sizeActive > 0}
+            onClick={onClickAdd}
+            className="button button--outline button--add">
             <svg
               width="12"
               height="12"
@@ -50,7 +70,7 @@ export default function PieBlock({ title, price, imageUrl, types, sizes }) {
               />
             </svg>
             <span>Добавить</span>
-            <i>{pieCount}</i>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
       </div>

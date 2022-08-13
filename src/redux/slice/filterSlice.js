@@ -6,7 +6,7 @@ const initialState = {
   currentPage: 1,
 };
 
-export const filterSlice = createSlice({
+const filterSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
