@@ -6,12 +6,12 @@ import cart from '../assets/img/cart.png';
 import trash from '../assets/img/trash.svg';
 import greyArroeLeft from '../assets/img/grey-arrow-left.svg';
 import CartItem from '../components/CartItem';
-import { clearItem } from '../redux/slice/cartSlice';
+import { clearItem, selectCart } from '../redux/slice/cartSlice';
 import CartEmpty from '../components/CartEmpty';
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(selectCart);
 
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 

@@ -3,14 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import { setCategoryId, setSort, setCurrentPage, setFilters } from '../redux/slice/filterSlice';
+import {
+  setCategoryId,
+  setSort,
+  setCurrentPage,
+  setFilters,
+  selectFilter,
+} from '../redux/slice/filterSlice';
 import PieBlock from '../components/PieBlock';
 import PieBlockLoader from '../components/PieBlock/PieBlockLoader';
 import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import Pagination from '../components/Pagination';
-import { SearchPie } from '../App';
-import { fetchPie } from '../redux/slice/pieSlice';
+import { fetchPie, selectPie } from '../redux/slice/pieSlice';
 import SignalError from '../components/SignalError';
 
 export default function Home() {
@@ -19,10 +24,8 @@ export default function Home() {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pie);
-
-  const { searchValue } = React.useContext(SearchPie);
+  const { categoryId, searchValue, sort, currentPage } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPie);
 
   const getPies = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';

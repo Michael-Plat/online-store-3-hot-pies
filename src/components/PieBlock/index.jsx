@@ -1,15 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addItem } from '../../redux/slice/cartSlice';
+import { addItem, selectCartById } from '../../redux/slice/cartSlice';
 
 const typesPie = ['тонкое', 'традиционное'];
 
 export default function PieBlock({ id, title, price, imageUrl, types, sizes }) {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
+  const cartItem = useSelector(selectCartById(id));
   const [typeActive, setTypeActive] = React.useState(Math.min.apply(this, types));
-  const [sizeActive, setSizeActive] = React.useState();
+  const [sizeActive, setSizeActive] = React.useState(0);
 
   const addedCount = cartItem ? cartItem.count : 0;
 
@@ -54,10 +54,7 @@ export default function PieBlock({ id, title, price, imageUrl, types, sizes }) {
         </div>
         <div className="pie-block__bottom">
           <div className="pie-block__price">от {price} ₽</div>
-          <button
-            disabled={!sizeActive > 0}
-            onClick={onClickAdd}
-            className="button button--outline button--add">
+          <button onClick={onClickAdd} className="button button--outline button--add">
             <svg
               width="12"
               height="12"

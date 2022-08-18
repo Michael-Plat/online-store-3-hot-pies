@@ -38,6 +38,8 @@ const pieSlice = createSlice({
   },
 });
 
+export const selectPie = (state) => state.pie;
+
 export const { setItems } = pieSlice.actions;
 
 export default pieSlice.reducer;

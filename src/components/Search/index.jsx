@@ -1,20 +1,21 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
+import { useDispatch } from 'react-redux';
 
-import { SearchPie } from '../../App';
+import { setSearchValue } from '../../redux/slice/filterSlice';
 import imgSearch from '../../assets/img/search_site.svg';
 import imgClear from '../../assets/img/clear_text.svg';
 import styles from './Search.module.scss';
 
 export default function Search() {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState('');
-  const { setSearchValue } = React.useContext(SearchPie);
   const inputRef = React.useRef();
 
   const updeteSearchValue = React.useCallback(
     debounce((str) => {
-      setSearchValue(str);
-    }, 350),
+      dispatch(setSearchValue(str));
+    }),
     [],
   );
 
@@ -24,7 +25,7 @@ export default function Search() {
   };
 
   const onClickClear = () => {
-    setSearchValue('');
+    dispatch(setSearchValue(''));
     setValue('');
     inputRef.current.focus();
   };
