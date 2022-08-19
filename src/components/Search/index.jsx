@@ -15,7 +15,7 @@ export default function Search() {
   const updeteSearchValue = React.useCallback(
     debounce((str) => {
       dispatch(setSearchValue(str));
-    }),
+    }, 300),
     [],
   );
 

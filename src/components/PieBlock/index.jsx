@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { addItem, selectCartById } from '../../redux/slice/cartSlice';
 
@@ -28,8 +29,10 @@ export default function PieBlock({ id, title, price, imageUrl, types, sizes }) {
   return (
     <div className="pie-block-wrapper">
       <div className="pie-block">
-        <img className="pie-block__image" src={imageUrl} alt="Pie" />
-        <h4 className="pie-block__title">{title}</h4>
+        <Link to={'/pie/' + id}>
+          <img className="pie-block__image" src={imageUrl} alt="Pie" />
+          <h4 className="pie-block__title">{title}</h4>
+        </Link>
         <div className="pie-block__selector">
           <ul>
             {types.map((i) => (
