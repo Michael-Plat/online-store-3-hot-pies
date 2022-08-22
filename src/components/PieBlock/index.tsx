@@ -4,9 +4,18 @@ import { Link } from 'react-router-dom';
 
 import { addItem, selectCartById } from '../../redux/slice/cartSlice';
 
+type PieBlockPropsType = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  types: number[];
+  sizes: number[];
+};
+
 const typesPie = ['тонкое', 'традиционное'];
 
-export default function PieBlock({ id, title, price, imageUrl, types, sizes }) {
+const PieBlock: React.FC<PieBlockPropsType> = ({ id, title, price, imageUrl, types, sizes }) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartById(id));
   const [typeActive, setTypeActive] = React.useState(Math.min.apply(this, types));
@@ -76,4 +85,6 @@ export default function PieBlock({ id, title, price, imageUrl, types, sizes }) {
       </div>
     </div>
   );
-}
+};
+
+export default PieBlock;

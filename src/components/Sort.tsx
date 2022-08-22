@@ -1,6 +1,14 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-export const sortList = [
+import { selectFilter, setSort } from '../redux/slice/filterSlice';
+
+type SortItemType = {
+  name: string;
+  sortProperty: string;
+};
+
+export const sortList: SortItemType[] = [
   { name: 'популярности(DESC)', sortProperty: 'rating' },
   { name: 'популярности(ASC)', sortProperty: '-rating' },
   { name: 'цене(DESC)', sortProperty: 'price' },
@@ -9,17 +17,19 @@ export const sortList = [
   { name: 'алфавиту(ASC)', sortProperty: '-title' },
 ];
 
-export default function Sort({ sort, onClickSort }) {
+const Sort: React.FC = () => {
+  const dispatch = useDispatch();
+  const { sort } = useSelector(selectFilter);
   const [open, setOpen] = React.useState(false);
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
-  const onClickPopup = (i) => {
-    onClickSort(i);
+  const onClickPopup = (obj: SortItemType) => {
+    dispatch(setSort(obj));
     setOpen(false);
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
         setOpen(false);
       }
@@ -63,4 +73,6 @@ export default function Sort({ sort, onClickSort }) {
       )}
     </div>
   );
-}
+};
+
+export default Sort;

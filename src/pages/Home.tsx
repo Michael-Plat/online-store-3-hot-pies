@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   setCategoryId,
-  setSort,
   setCurrentPage,
   setFilters,
   selectFilter,
@@ -18,7 +17,7 @@ import Pagination from '../components/Pagination';
 import { fetchPie, selectPie } from '../redux/slice/pieSlice';
 import SignalError from '../components/SignalError';
 
-export default function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
@@ -32,7 +31,7 @@ export default function Home() {
     const sortBy = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const search = searchValue ? `&search=${searchValue}` : '';
-
+    //@ts-ignore
     dispatch(fetchPie({ currentPage, category, sortBy, order, search }));
     window.scroll(0, 0);
   };
@@ -72,18 +71,18 @@ export default function Home() {
   }, [categoryId, sort, searchValue, currentPage]);
 
   const loaderSkeletons = [...new Array(10)].map((_, index) => <PieBlockLoader key={index} />);
-  const pies = items.map((obj) => <PieBlock key={obj.id} {...obj} />);
+  const pies = items.map((obj: any) => <PieBlock key={obj.id} {...obj} />);
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories
           value={categoryId}
-          onClickCategory={(id) => {
+          onClickCategory={(id: any) => {
             dispatch(setCategoryId(id));
           }}
         />
-        <Sort sort={sort} onClickSort={(i) => dispatch(setSort(i))} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пироги</h2>
       {status === 'error' ? (
@@ -94,8 +93,10 @@ export default function Home() {
 
       <Pagination
         currentPage={currentPage}
-        onChangePage={(namber) => dispatch(setCurrentPage(namber))}
+        onChangePage={(page: number) => dispatch(setCurrentPage(page))}
       />
     </div>
   );
-}
+};
+
+export default Home;

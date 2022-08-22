@@ -7,10 +7,10 @@ import imgSearch from '../../assets/img/search_site.svg';
 import imgClear from '../../assets/img/clear_text.svg';
 import styles from './Search.module.scss';
 
-export default function Search() {
+const Search: React.FC = () => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState('');
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const updeteSearchValue = React.useCallback(
     debounce((str) => {
@@ -19,7 +19,7 @@ export default function Search() {
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updeteSearchValue(event.target.value);
   };
@@ -27,7 +27,7 @@ export default function Search() {
   const onClickClear = () => {
     dispatch(setSearchValue(''));
     setValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (
@@ -39,4 +39,6 @@ export default function Search() {
       )}
     </div>
   );
-}
+};
+
+export default Search;
