@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function FullPie() {
-  const [pie, setPie] = React.useState();
+  const [pie, setPie] = React.useState<{ imageUrl: string; title: string; price: number }>();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function FullPie() {
   }, []);
 
   if (!pie) {
-    return 'LOADING ....';
+    return <>'LOADING ....'</>;
   }
 
   return (
