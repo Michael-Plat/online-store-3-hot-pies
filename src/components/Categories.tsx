@@ -2,7 +2,7 @@ import React from 'react';
 
 type CategoriesPropsType = {
   value: number;
-  onClickCategory: any;
+  onClickCategory: (i: number) => void;
 };
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Десертные', 'Острые', 'Рыбные'];

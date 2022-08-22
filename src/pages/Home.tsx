@@ -78,7 +78,7 @@ const Home: React.FC = () => {
       <div className="content__top">
         <Categories
           value={categoryId}
-          onClickCategory={(id: any) => {
+          onClickCategory={(id: number) => {
             dispatch(setCategoryId(id));
           }}
         />
