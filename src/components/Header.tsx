@@ -62,7 +62,7 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
-      <Search />
+      {location.pathname !== '/cart' && <Search />}
     </div>
   );
 };

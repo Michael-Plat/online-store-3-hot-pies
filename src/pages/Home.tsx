@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,24 +14,28 @@ import PieBlockLoader from '../components/PieBlock/PieBlockLoader';
 import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import Pagination from '../components/Pagination';
-import { fetchPie, selectPie } from '../redux/slice/pieSlice';
+import { fetchPie, SearchPiesParamsType, selectPie } from '../redux/slice/pieSlice';
 import SignalError from '../components/SignalError';
+import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
   const { categoryId, searchValue, sort, currentPage } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPie);
 
+  const onChangeCategory = React.useCallback((idx: number) => {
+    dispatch(setCategoryId(idx));
+  }, []);
+
   const getPies = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const sortBy = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const search = searchValue ? `&search=${searchValue}` : '';
-    //@ts-ignore
     dispatch(fetchPie({ currentPage, category, sortBy, order, search }));
     window.scroll(0, 0);
   };
@@ -52,11 +56,20 @@ const Home: React.FC = () => {
   // Если был первый рендер, то проверяем  URL-параметры и сохраняем в Redux
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(
+        window.location.search.substring(1),
+      ) as unknown as SearchPiesParamsType;
 
-      const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
+      const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
 
-      dispatch(setFilters({ ...params, sort }));
+      dispatch(
+        setFilters({
+          searchValue: params.category,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortList[0],
+        }),
+      );
       isSearch.current = true;
     }
   }, []);
@@ -76,13 +89,8 @@ const Home: React.FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          value={categoryId}
-          onClickCategory={(id: number) => {
-            dispatch(setCategoryId(id));
-          }}
-        />
-        <Sort />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пироги</h2>
       {status === 'error' ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addItem, minusItem, removeItem } from '../redux/slice/cartSlice';
+import { addItem, CartItemType, minusItem, removeItem } from '../redux/slice/cartSlice';
 
 type CartItemPropsType = {
   id: string;
@@ -25,16 +25,16 @@ const CartItem: React.FC<CartItemPropsType> = ({
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
-    dispatch(addItem({ id }));
+    dispatch(addItem({ id } as CartItemType));
   };
 
   const onClickMinus = () => {
-    dispatch(minusItem({ id }));
+    dispatch(minusItem(id));
   };
 
   const onClickRemove = () => {
     if (window.confirm('Вы дествительно хотите удалить вкладку ?')) {
-      dispatch(removeItem({ id }));
+      dispatch(removeItem(id));
     }
   };
 
@@ -51,7 +51,7 @@ const CartItem: React.FC<CartItemPropsType> = ({
       </div>
       <div className="cart__item-count">
         <button
-          disabled={count == 1}
+          disabled={count === 1}
           onClick={onClickMinus}
           className="button button--outline button--circle cart__item-count-minus">
           <svg

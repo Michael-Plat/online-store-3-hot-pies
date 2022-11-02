@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { addItem, selectCartById } from '../../redux/slice/cartSlice';
+import { addItem, CartItemType, selectCartById } from '../../redux/slice/cartSlice';
 
 type PieBlockPropsType = {
   id: string;
@@ -24,13 +24,14 @@ const PieBlock: React.FC<PieBlockPropsType> = ({ id, title, price, imageUrl, typ
   const addedCount = cartItem ? cartItem.count : 0;
 
   const onClickAdd = () => {
-    const item = {
+    const item: CartItemType = {
       id,
       title,
       price,
       imageUrl,
       type: typesPie[typeActive],
       size: sizes[sizeActive],
+      count: 0,
     };
     dispatch(addItem(item));
   };
