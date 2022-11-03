@@ -3,20 +3,18 @@ import { useSelector } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-  selectFilter,
-} from '../redux/slice/filterSlice';
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/filter/sliceFilter';
 import PieBlock from '../components/PieBlock';
 import PieBlockLoader from '../components/PieBlock/PieBlockLoader';
 import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import Pagination from '../components/Pagination';
-import { fetchPie, SearchPiesParamsType, selectPie } from '../redux/slice/pieSlice';
+import { selectPie } from '../redux/pie/selectorsPie';
 import SignalError from '../components/SignalError';
 import { useAppDispatch } from '../redux/store';
+import { fetchPie } from '../redux/pie/asyncActionsPie';
+import { SearchPiesParamsType } from '../redux/pie/typesPie';
+import { selectFilter } from '../redux/filter/selectorsFilter';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();

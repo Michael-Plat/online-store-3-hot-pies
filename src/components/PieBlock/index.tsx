@@ -2,7 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { addItem, CartItemType, selectCartById } from '../../redux/slice/cartSlice';
+import { addItem } from '../../redux/cart/sliceCart';
+import { selectCartById } from '../../redux/cart/selectorsCart';
+import { CartItemType } from '../../redux/cart/typesCart';
 
 type PieBlockPropsType = {
   id: string;

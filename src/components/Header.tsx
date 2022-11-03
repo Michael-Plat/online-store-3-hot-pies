@@ -4,13 +4,22 @@ import { useSelector } from 'react-redux';
 
 import logoHead from '../assets/img/logo-pie.svg';
 import Search from './Search';
-import { selectCart } from '../redux/slice/cartSlice';
+import { selectCart } from '../redux/cart/selectorsCart';
 
 const Header: React.FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
+  const isMount = React.useRef(false);
 
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+
+  React.useEffect(() => {
+    if (isMount.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cart', json);
+    }
+    isMount.current = true;
+  }, [items]);
 
   return (
     <div className="header">

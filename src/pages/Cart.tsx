@@ -6,8 +6,9 @@ import cart from '../assets/img/cart.png';
 import trash from '../assets/img/trash.svg';
 import greyArroeLeft from '../assets/img/grey-arrow-left.svg';
 import CartItem from '../components/CartItem';
-import { clearItem, selectCart } from '../redux/slice/cartSlice';
+import { clearItem } from '../redux/cart/sliceCart';
 import CartEmpty from '../components/CartEmpty';
+import { selectCart } from '../redux/cart/selectorsCart';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
