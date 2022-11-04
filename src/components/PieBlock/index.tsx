@@ -17,7 +17,14 @@ type PieBlockPropsType = {
 
 const typesPie = ['тонкое', 'традиционное'];
 
-const PieBlock: React.FC<PieBlockPropsType> = ({ id, title, price, imageUrl, types, sizes }) => {
+export const PieBlock: React.FC<PieBlockPropsType> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  types,
+  sizes,
+}) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartById(id));
   const [typeActive, setTypeActive] = React.useState(Math.min.apply(this, types));
@@ -89,5 +96,3 @@ const PieBlock: React.FC<PieBlockPropsType> = ({ id, title, price, imageUrl, typ
     </div>
   );
 };
-
-export default PieBlock;

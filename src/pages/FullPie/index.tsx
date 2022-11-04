@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-export default function FullPie() {
+const FullPie: React.FC = () => {
   const [pie, setPie] = React.useState<{ imageUrl: string; title: string; price: number }>();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,6 +30,13 @@ export default function FullPie() {
       <h2>{pie.title}</h2>
       <p>text text text texttexttexttextv texttexttexttexttexttexttext texttexttexttexttexttext</p>
       <h2>{pie.price} ₽</h2>
+      <Link to={'/mdkd'}>
+        <button className="button button--outline button--add">
+          <span>Назад</span>
+        </button>
+      </Link>
     </div>
   );
-}
+};
+
+export default FullPie;

@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import cart from '../assets/img/cart.png';
 import trash from '../assets/img/trash.svg';
 import greyArroeLeft from '../assets/img/grey-arrow-left.svg';
-import CartItem from '../components/CartItem';
 import { clearItem } from '../redux/cart/sliceCart';
-import CartEmpty from '../components/CartEmpty';
 import { selectCart } from '../redux/cart/selectorsCart';
+import { CartEmpty, CartItem } from '../components';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();

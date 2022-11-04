@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const PieBlockLoader: React.FC = () => (
+export const PieBlockLoader: React.FC = () => (
   <ContentLoader
     className="pie-block"
     speed={2}
@@ -17,5 +17,3 @@ const PieBlockLoader: React.FC = () => (
     <rect x="122" y="350" rx="20" ry="20" width="155" height="45" />
   </ContentLoader>
 );
-
-export default PieBlockLoader;

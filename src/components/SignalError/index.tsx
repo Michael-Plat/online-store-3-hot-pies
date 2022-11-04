@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './SignalError.module.scss';
 
-const SignalError: React.FC = () => {
+export const SignalError: React.FC = () => {
   return (
     <div className={styles.root}>
       <h2>Произошла ошибка</h2>
@@ -10,5 +10,3 @@ const SignalError: React.FC = () => {
     </div>
   );
 };
-
-export default SignalError;
